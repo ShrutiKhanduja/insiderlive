@@ -1,52 +1,34 @@
-// Flutter imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insiderLive/SplashScreen.dart';
 
-// Package imports:
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
-
-// Project imports:
-import 'package:inshort_clone/controller/provider.dart';
-import 'package:inshort_clone/controller/settings.dart';
-import 'package:inshort_clone/model/news_model.dart';
-import 'app/app.dart';
+// bool USE_FIRESTORE_EMULATOR = false;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final docPath = await getApplicationDocumentsDirectory();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
-  Hive.init(docPath.path);
-  Hive.registerAdapter(ArticlesAdapter());
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  await Hive.openBox('settingsBox');
-  await Hive.openBox<Articles>('bookmarks');
-  await Hive.openBox<Articles>('unreads');
-
-  final _isDarkModeOn = await Hive.box('settingsBox').get('isDarkModeOn');
-  SettingsProvider().darkTheme(_isDarkModeOn ?? false);
-
-  final _lang = await Hive.box('settingsBox').get('activeLang');
-  SettingsProvider().setLang(_lang);
-
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black,
-      statusBarColor: Colors.black,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
-  );
-
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SettingsProvider>(
-            create: (_) => SettingsProvider()),
-        ChangeNotifierProvider<FeedProvider>(create: (_) => FeedProvider()),
-      ],
-      child: App(),
-    ),
-  );
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: SplashScreen());
+  }
 }
