@@ -32,7 +32,9 @@ dependencies:
   social_share: ^2.0.0
   flutter_feather_icons: ^1.0.3
   font_awesome_flutter: ^8.10.0
+  webview_flutter: ^0.3.3
   translator: ^0.1.5
+  flutter_svg: ^0.18.0
 
 
 dev_dependencies:
