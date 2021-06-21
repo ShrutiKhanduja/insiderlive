@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          height: 50, child: Image.asset('assets/country.png')),
+                          height: 50, child: Image.asset('assets/country2.png')),
                       Text('देश',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -160,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          height: 50, child: Image.asset('assets/state.png')),
+                          height: 50, child: Image.asset('assets/state2.png')),
                       Text('राज्य',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -180,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                           height: 50,
-                          child: Image.asset('assets/political.png')),
+                          child: Image.asset('assets/politics2.png')),
                       Text('राजनीति',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -200,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                           height: 50,
-                          child: Image.asset('assets/international.png')),
+                          child: Image.asset('assets/international2.png')),
                       Text('अंतरराष्ट्रीय',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -220,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                           height: 50,
-                          child: Image.asset('assets/entertainment.png')),
+                          child: Image.asset('assets/entertainment2.png')),
                       Text('मनोरंजन',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -239,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          height: 50, child: Image.asset('assets/sports.png')),
+                          height: 50, child: Image.asset('assets/sports2.png')),
                       Text('खेल',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -258,8 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          height: 50,
-                          child: Image.asset('assets/business.png')),
+                          height: 60,
+                          child: Image.asset('assets/business2.jpeg',)),
                       Text('कारोबार',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -458,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: primarycolor,
+          backgroundColor: Colors.white,
           title: Image.asset('assets/insider.png', scale: 1.9),
           centerTitle: true,
           actions: [
@@ -467,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Controller.cont.jumpToPage(1);
                 },
                 child: Icon(Icons.arrow_forward_ios,
-                    color: Colors.white, size: 35))
+                    color: primarycolor, size: 25))
           ],
         ),
 //      appBar: PreferredSize(child: Appbar(),preferredSize:Size.fromHeight(MediaQuery.of(context).size.height*0.085)),
@@ -565,3 +566,4 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 }
+

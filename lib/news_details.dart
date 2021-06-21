@@ -42,6 +42,436 @@ class _NewsDetailsState extends State<NewsDetails> {
         });
       }
     });
+    if(widget.cat=='Top'||widget.cat=='Breaking-news'){
+      FirebaseFirestore.instance
+          .collection('HomePage')
+          .doc(widget.cat)
+          .snapshots()
+          .listen((event) async {
+        Map map = event.data();
+        DateTime date = map['Topnews']['TimeStamp'].toDate();
+
+        print(DateFormat.yMMMd().add_jm().format(date));
+
+        setState(() {
+          allwidgets.add(
+            Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                          top: MediaQuery.of(context).size.height * 0.02,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(map['Topnews']['imageURL']),
+                                    fit: BoxFit.cover)),
+                            child: ClipRRect(
+                              child: BackdropFilter(
+                                filter:
+                                ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                                child: Container(
+                                    height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.0))),
+                              ),
+                            ),
+                          )),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.03,
+                        left: MediaQuery.of(context).size.width * 0.025,
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.36,
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(map['Topnews']['imageURL']),
+                                    fit: BoxFit.cover))),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(DateFormat.yMMMd().add_jm().format(date),
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize:
+                              MediaQuery.of(context).size.height * 0.018))),
+                ),
+                map['Topnews']['coveredBy'] != '' && map['Topnews']['coveredBy'] != null
+                    ? Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text('Covered by : ${map['Topnews']['coveredBy']}',
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.018))),
+                )
+                    : Container()
+              ],
+            ),
+          );
+          allwidgets.add(
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
+                child: Text(map['Topnews']['title'].toString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.height * 0.025)),
+              ),
+            ),
+          );
+          allwidgets.add(Center(
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Text(map['Topnews']['description'].toString(),
+                    style: GoogleFonts.poppins(
+                        fontSize: MediaQuery.of(context).size.height * 0.02))),
+          ));
+          allwidgets.add(SizedBox(height:10));
+        });
+        for (int i = 0; i < map['Topnews']['content'].length; i++) {
+          Map map2 = map['Topnews']['content'][i];
+          if (map2.keys.contains('para')) {
+            setState(() {
+              allwidgets.add(Center(
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    child: Text(
+                        map2.values
+                            .toString()
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize:
+                            MediaQuery.of(context).size.height * 0.02))),
+              ));
+              allwidgets.add(SizedBox(height:10));
+            });
+          } else if (map2.keys.contains('head')) {
+            setState(() {
+              allwidgets.add(Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: Text(
+                      map2.values
+                          .toString()
+                          .replaceAll('(', '')
+                          .replaceAll(')', '')
+                          .toString(),
+                      style: GoogleFonts.poppins(
+                          fontSize: MediaQuery.of(context).size.height * 0.024,
+                          fontWeight: FontWeight.w600))));
+              allwidgets.add(SizedBox(height:10));
+            });
+          } else if (map2.keys.contains('image')) {
+            print(map2.values.contains(false));
+            print('Image:${map2.values.toString()}');
+            setState(() {
+              allwidgets.add(Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Stack(
+                  children: [
+                    Positioned(
+                        top: MediaQuery.of(context).size.height * 0.02,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(map2.values.contains(false)
+                                      ? map2.values.toString().substring(8)
+                                      : (map2.values.toString().substring(1))),
+                                  fit: BoxFit.cover)),
+                          child: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                              child: Container(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.4,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.0))),
+                            ),
+                          ),
+                        )),
+                    Positioned(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                      left: MediaQuery.of(context).size.width * 0.025,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.36,
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: FancyShimmerImage(
+                          imageUrl: map2.values.contains(false)
+                              ? map2.values.toString().substring(8)
+                              : (map2.values.toString().substring(1)),
+                          boxFit: BoxFit.fill,
+                          shimmerBaseColor: Colors.grey,
+                          shimmerDuration: Duration(seconds: 1),
+                        ),
+//                        decoration: BoxDecoration(image: DecorationImage(
+//                            image: NetworkImage(
+//                                map2.values.contains(false)?map2.values.toString().substring(8):(map2.values.toString().substring(1))), fit: BoxFit.cover)
+                      ),
+                    ),
+                  ],
+                ),
+              ));
+              allwidgets.add(SizedBox(height:10));
+            });
+          }
+        }
+        allwidgets.add(InkWell(
+          onTap: () {
+            launch(adURL.Link);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: FancyShimmerImage(
+                  imageUrl: adURL.ImageURL,
+                  boxFit: BoxFit.fill,
+                  shimmerBaseColor: Colors.grey,
+                  shimmerDuration: Duration(seconds: 1),
+                )),
+          ),
+        ));
+        setState(() {
+          allnews
+              .add(Data(map['Topnews']['imageURL'], map['Topnews']['content'], map['Topnews']['title'], event.id));
+        });
+      });
+    }
+    if(widget.cat=='Trending'){
+      FirebaseFirestore.instance
+          .collection('HomePage')
+          .doc(widget.cat)
+          .snapshots()
+          .listen((event) async {
+        Map map = event.data();
+        DateTime date = map['TrendingNews']['TimeStamp'].toDate();
+
+        print(DateFormat.yMMMd().add_jm().format(date));
+
+        setState(() {
+          allwidgets.add(
+            Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                          top: MediaQuery.of(context).size.height * 0.02,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(map['TrendingNews']['imageURL']),
+                                    fit: BoxFit.cover)),
+                            child: ClipRRect(
+                              child: BackdropFilter(
+                                filter:
+                                ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                                child: Container(
+                                    height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.0))),
+                              ),
+                            ),
+                          )),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.03,
+                        left: MediaQuery.of(context).size.width * 0.025,
+                        child: Container(
+                            height: MediaQuery.of(context).size.height * 0.36,
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(map['TrendingNews']['imageURL']),
+                                    fit: BoxFit.cover))),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(DateFormat.yMMMd().add_jm().format(date),
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize:
+                              MediaQuery.of(context).size.height * 0.018))),
+                ),
+                map['TrendingNews']['coveredBy'] != '' && map['TrendingNews']['coveredBy'] != null
+                    ? Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text('Covered by : ${map['TrendingNews']['coveredBy']}',
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.018))),
+                )
+                    : Container()
+              ],
+            ),
+          );
+          allwidgets.add(
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
+                child: Text(map['TrendingNews']['title'].toString(),
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.height * 0.025)),
+              ),
+            ),
+          );
+          allwidgets.add(Center(
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Text(map['TrendingNews']['description'].toString(),
+                    style: GoogleFonts.poppins(
+                        fontSize: MediaQuery.of(context).size.height * 0.02))),
+          ));
+          allwidgets.add(SizedBox(height:10));
+        });
+        for (int i = 0; i < map['TrendingNews']['content'].length; i++) {
+          Map map2 = map['TrendingNews']['content'][i];
+          if (map2.keys.contains('para')) {
+            setState(() {
+              allwidgets.add(Center(
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    child: Text(
+                        map2.values
+                            .toString()
+                            .replaceAll('(', '')
+                            .replaceAll(')', '')
+                            .toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize:
+                            MediaQuery.of(context).size.height * 0.02))),
+              ));
+              allwidgets.add(SizedBox(height:10));
+            });
+          } else if (map2.keys.contains('head')) {
+            setState(() {
+              allwidgets.add(Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: Text(
+                      map2.values
+                          .toString()
+                          .replaceAll('(', '')
+                          .replaceAll(')', '')
+                          .toString(),
+                      style: GoogleFonts.poppins(
+                          fontSize: MediaQuery.of(context).size.height * 0.024,
+                          fontWeight: FontWeight.w600))));
+              allwidgets.add(SizedBox(height:10));
+            });
+          } else if (map2.keys.contains('image')) {
+            print(map2.values.contains(false));
+            print('Image:${map2.values.toString()}');
+            setState(() {
+              allwidgets.add(Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Stack(
+                  children: [
+                    Positioned(
+                        top: MediaQuery.of(context).size.height * 0.02,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(map2.values.contains(false)
+                                      ? map2.values.toString().substring(8)
+                                      : (map2.values.toString().substring(1))),
+                                  fit: BoxFit.cover)),
+                          child: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                              child: Container(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.4,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.0))),
+                            ),
+                          ),
+                        )),
+                    Positioned(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                      left: MediaQuery.of(context).size.width * 0.025,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.36,
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: FancyShimmerImage(
+                          imageUrl: map2.values.contains(false)
+                              ? map2.values.toString().substring(8)
+                              : (map2.values.toString().substring(1)),
+                          boxFit: BoxFit.fill,
+                          shimmerBaseColor: Colors.grey,
+                          shimmerDuration: Duration(seconds: 1),
+                        ),
+//                        decoration: BoxDecoration(image: DecorationImage(
+//                            image: NetworkImage(
+//                                map2.values.contains(false)?map2.values.toString().substring(8):(map2.values.toString().substring(1))), fit: BoxFit.cover)
+                      ),
+                    ),
+                  ],
+                ),
+              ));
+              allwidgets.add(SizedBox(height:10));
+            });
+          }
+        }
+        allwidgets.add(InkWell(
+          onTap: () {
+            launch(adURL.Link);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: FancyShimmerImage(
+                  imageUrl: adURL.ImageURL,
+                  boxFit: BoxFit.fill,
+                  shimmerBaseColor: Colors.grey,
+                  shimmerDuration: Duration(seconds: 1),
+                )),
+          ),
+        ));
+        setState(() {
+          allnews
+              .add(Data(map['TrendingNews']['imageURL'], map['TrendingNews']['content'], map['TrendingNews']['title'], event.id));
+        });
+      });
+    }
     FirebaseFirestore.instance
         .collection('NewsSchem1')
         .doc(widget.docid)
@@ -140,6 +570,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                   style: GoogleFonts.poppins(
                       fontSize: MediaQuery.of(context).size.height * 0.02))),
         ));
+        allwidgets.add(SizedBox(height:10));
       });
       for (int i = 0; i < map['content'].length; i++) {
         Map map2 = map['content'][i];
@@ -158,6 +589,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                           fontSize:
                               MediaQuery.of(context).size.height * 0.02))),
             ));
+            allwidgets.add(SizedBox(height:10));
           });
         } else if (map2.keys.contains('head')) {
           setState(() {
@@ -170,8 +602,9 @@ class _NewsDetailsState extends State<NewsDetails> {
                         .replaceAll(')', '')
                         .toString(),
                     style: GoogleFonts.poppins(
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontSize: MediaQuery.of(context).size.height * 0.024,
                         fontWeight: FontWeight.w600))));
+            allwidgets.add(SizedBox(height:10));
           });
         } else if (map2.keys.contains('image')) {
           print(map2.values.contains(false));
@@ -226,6 +659,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                 ],
               ),
             ));
+            allwidgets.add(SizedBox(height:10));
           });
         }
       }

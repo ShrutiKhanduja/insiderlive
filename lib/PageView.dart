@@ -14,8 +14,8 @@ class _PageviewState extends State<Pageview> {
 
 
   Controller co;
-  String cat='Insider Special';
-  String eng='Insider Special';
+  String cat='Top';
+  String eng='Top';
   void pref()async{
     SharedPreferences prefs= await SharedPreferences.getInstance();
     prefs.setString('cat', cat);

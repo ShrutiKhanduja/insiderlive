@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,6 +32,9 @@ class _FeedScreenState extends State<FeedScreen> {
   int check = 0;
   void cats() async {
     allcats.clear();
+    allcats.add(Categories('','Top','',''));
+    allcats.add(Categories('','Trending','',''));
+    allcats.add(Categories('','Breaking-news','',''));
     await FirebaseFirestore.instance
         .collection('Category')
         .orderBy('position')
@@ -48,6 +53,8 @@ class _FeedScreenState extends State<FeedScreen> {
           });
         }
       }
+
+
       print(allcats.length);
       pref();
     });
@@ -68,8 +75,69 @@ class _FeedScreenState extends State<FeedScreen> {
 
   final translator = GoogleTranslator();
   void data(String category) async {
-    allnews.clear();
 
+    allnews.clear();
+    if(category=='Trending'){
+      FirebaseFirestore.instance
+          .collection('HomePage').doc(category)
+
+          .snapshots()
+          .listen((event) async {
+
+//       print(i);
+//          print( event.docs[i].id,);
+        for(int i=0;i<event['TrendingNews'].length;i++){
+          setState(() {
+            allnews.add(Data(event['TrendingNews'][i]['imageURL'], event['TrendingNews'][i]['content'],
+                event['TrendingNews'][i]['title'], event.id));
+          });
+          for (int j = 0; j < event['TrendingNews'][i]['content'].length; j++) {
+//         print(i);
+            Map<String, dynamic> map = event['TrendingNews'][i]['content'][j];
+            if (map.keys.contains('para')) {
+//                print(map);
+              allparas.add(event['TrendingNews'][i]['content'][j]['para'].toString());
+              break;
+            }
+          }
+        }
+
+
+//print('Allnews:${allnews.length}');
+//     print('Allparas:${allparas.length}');
+      });
+    }
+     if(category=='Top'||category=='Breaking-news'){
+       FirebaseFirestore.instance
+           .collection('HomePage').doc(category)
+
+           .snapshots()
+           .listen((event) async {
+
+//       print(i);
+//          print( event.docs[i].id,);
+       for(int i=0;i<event['Topnews'].length;i++){
+         setState(() {
+           allnews.add(Data(event['Topnews'][i]['imageURL'], event['Topnews'][i]['content'],
+               event['Topnews'][i]['title'], event.id));
+         });
+         for (int j = 0; j < event['Topnews'][i]['content'].length; j++) {
+//         print(i);
+           Map<String, dynamic> map = event['Topnews'][i]['content'][j];
+           if (map.keys.contains('para')) {
+//                print(map);
+             allparas.add(event['Topnews'][i]['content'][j]['para'].toString());
+             break;
+           }
+         }
+       }
+
+
+//print('Allnews:${allnews.length}');
+//     print('Allparas:${allparas.length}');
+       });
+
+     }
     FirebaseFirestore.instance
         .collection('NewsSchem1')
         .where('category', isEqualTo: category)
@@ -179,11 +247,17 @@ class _FeedScreenState extends State<FeedScreen> {
                                   setState(() {
                                     category = index;
                                     print(category);
-                                    (allcats[index].title != 'Insider Special')
-                                        ? eng = allcats[index].hindititle
-                                        : eng = 'Insider Special';
-                                    cat = allcats[index].hindititle;
-                                    eng = allcats[index].title;
+                                    if(allcats[index].title=='Trending'||allcats[index].title=='Top'||allcats[index].title=='Breaking-news'){
+                                      eng=allcats[index].title;
+                                    }
+                                    else{
+                                      (allcats[index].title != 'Insider Special')
+                                          ? eng = allcats[index].hindititle
+                                          : eng = 'Insider Special';
+                                      cat = allcats[index].hindititle;
+                                      eng = allcats[index].title;
+                                    }
+
                                     data(allcats[index].title);
                                   });
                                 },
@@ -312,32 +386,26 @@ class _FeedScreenState extends State<FeedScreen> {
                                             ],
                                           ),
                                         ),
-                                        index % 5 == 0
-                                            ? InkWell(
+
+                                             InkWell(
                                                 onTap: () {
-                                                  launch(index % 15 == 0
-                                                      ? ads[0].Link
-                                                      : index % 10 == 0
-                                                          ? ads[1].Link
-                                                          : ads[2].Link);
+                                                  launch(index % 3 ==0?ads[0].Link:index % 2 ==0?ads[1].Link:ads[2].Link
+                                                          );
                                                 },
                                                 child: Container(
                                                     height: 100,
                                                     width: width,
                                                     child: FancyShimmerImage(
-                                                      imageUrl: index % 15 == 0
-                                                          ? ads[0].ImageURL
-                                                          : index % 10 == 0
-                                                              ? ads[1].ImageURL
-                                                              : ads[2].ImageURL,
+                                                      imageUrl: index % 3 ==0?ads[0].ImageURL:index % 2 ==0?ads[1].ImageURL:ads[2].ImageURL,
+
                                                       boxFit: BoxFit.fill,
                                                       shimmerBaseColor:
                                                           Colors.grey,
                                                       shimmerDuration:
                                                           Duration(seconds: 1),
                                                     )),
-                                              )
-                                            : Container(),
+                                              ),
+
                                         InkWell(
                                           onTap: () {
                                             Navigator.push(
@@ -406,7 +474,52 @@ class _FeedScreenState extends State<FeedScreen> {
                         child: WebView(
                             key: _key,
                             javascriptMode: JavascriptMode.unrestricted,
-                            initialUrl: 'https://insiderlive.in'))
+                            initialUrl: 'https://insiderlive.in',
+                          gestureRecognizers: {
+                            Factory<PlatformViewVerticalGestureRecognizer>(
+                                  () => PlatformViewVerticalGestureRecognizer()
+                                ..onUpdate = (_) {},
+                            ),
+                          },
+                        ))
                   ])));
   }
+}
+class PlatformViewVerticalGestureRecognizer
+    extends VerticalDragGestureRecognizer {
+  PlatformViewVerticalGestureRecognizer({PointerDeviceKind kind})
+      : super(kind: kind);
+
+  Offset _dragDistance = Offset.zero;
+
+  @override
+  void addPointer(PointerEvent event) {
+    startTrackingPointer(event.pointer);
+  }
+
+  @override
+  void handleEvent(PointerEvent event) {
+    _dragDistance = _dragDistance + event.delta;
+    if (event is PointerMoveEvent) {
+      final double dy = _dragDistance.dy.abs();
+      final double dx = _dragDistance.dx.abs();
+
+      if (dy > dx && dy > kTouchSlop) {
+        // vertical drag - accept
+        resolve(GestureDisposition.accepted);
+        _dragDistance = Offset.zero;
+      } else if (dx > kTouchSlop && dx > dy) {
+        resolve(GestureDisposition.accepted);
+        // horizontal drag - stop tracking
+        stopTrackingPointer(event.pointer);
+        _dragDistance = Offset.zero;
+      }
+    }
+  }
+
+  @override
+  String get debugDescription => 'horizontal drag (platform view)';
+
+  @override
+  void didStopTrackingLastPointer(int pointer) {}
 }
