@@ -89,7 +89,7 @@ class _FeedScreenState extends State<FeedScreen> {
         for(int i=0;i<event['TrendingNews'].length;i++){
           setState(() {
             allnews.add(Data(event['TrendingNews'][i]['imageURL'], event['TrendingNews'][i]['content'],
-                event['TrendingNews'][i]['title'], event.id));
+                event['TrendingNews'][i]['title'], i.toString()));
           });
           for (int j = 0; j < event['TrendingNews'][i]['content'].length; j++) {
 //         print(i);
@@ -119,7 +119,7 @@ class _FeedScreenState extends State<FeedScreen> {
        for(int i=0;i<event['Topnews'].length;i++){
          setState(() {
            allnews.add(Data(event['Topnews'][i]['imageURL'], event['Topnews'][i]['content'],
-               event['Topnews'][i]['title'], event.id));
+               event['Topnews'][i]['title'], i.toString()));
          });
          for (int j = 0; j < event['Topnews'][i]['content'].length; j++) {
 //         print(i);

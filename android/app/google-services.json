@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "546934646356",
-    "project_id": "insiderlivebackup",
-    "storage_bucket": "insiderlivebackup.appspot.com"
+    "project_number": "906638355101",
+    "firebase_url": "https://insiderlive-5a7b4-default-rtdb.firebaseio.com",
+    "project_id": "insiderlive-5a7b4",
+    "storage_bucket": "insiderlive-5a7b4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:546934646356:android:4c80ed621d617b4ee6efc1",
+        "mobilesdk_app_id": "1:906638355101:android:cc6491d906bc3cae400274",
         "android_client_info": {
           "package_name": "com.axactstudios.insiderlive"
         }
       },
       "oauth_client": [
         {
-          "client_id": "546934646356-qf3ikq5179lmdrrgsluht7dtdt7lqrse.apps.googleusercontent.com",
+          "client_id": "906638355101-rbaocdbffu7tpvr11jp5qh6smtmerg2e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmytParHofy9rJTex4zxaCRi0ahnKtUa4"
+          "current_key": "AIzaSyBdBWBx_YS4iOce9WNcpnZshZvTAX8H1Ik"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "546934646356-qf3ikq5179lmdrrgsluht7dtdt7lqrse.apps.googleusercontent.com",
+              "client_id": "906638355101-rbaocdbffu7tpvr11jp5qh6smtmerg2e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
