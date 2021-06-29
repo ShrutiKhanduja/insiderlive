@@ -52,7 +52,7 @@ class _NewsDetailsState extends State<NewsDetails> {
         Map map = event.data();
 
         DateTime date =
-            map['Topnews'][int.parse(widget.docid)]['TimeStamp'].toDate();
+        map['Topnews'][int.parse(widget.docid)]['TimeStamp'].toDate();
 
         print(DateFormat.yMMMd().add_jm().format(date));
 
@@ -61,42 +61,72 @@ class _NewsDetailsState extends State<NewsDetails> {
             Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.4,
                   child: Stack(
                     children: [
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.02,
+                          top: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.4,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: NetworkImage(map['Topnews']
-                                        [int.parse(widget.docid)]['imageURL']),
+                                    [int.parse(widget.docid)]['imageURL']),
                                     fit: BoxFit.cover)),
                             child: ClipRRect(
                               child: BackdropFilter(
                                 filter:
-                                    ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                                ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
                                 child: Container(
-                                    height: MediaQuery.of(context).size.height *
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height *
                                         0.4,
-                                    width: MediaQuery.of(context).size.width,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
                                     decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.0))),
                               ),
                             ),
                           )),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.03,
-                        left: MediaQuery.of(context).size.width * 0.025,
+                        top: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.03,
+                        left: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.025,
                         child: Container(
-                            height: MediaQuery.of(context).size.height * 0.36,
-                            width: MediaQuery.of(context).size.width * 0.95,
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.36,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.95,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: NetworkImage(map['Topnews']
-                                        [int.parse(widget.docid)]['imageURL']),
+                                    [int.parse(widget.docid)]['imageURL']),
                                     fit: BoxFit.cover))),
                       ),
                     ],
@@ -111,23 +141,30 @@ class _NewsDetailsState extends State<NewsDetails> {
                           style: GoogleFonts.poppins(
                               color: Colors.grey,
                               fontSize:
-                                  MediaQuery.of(context).size.height * 0.018))),
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.018))),
                 ),
                 map['Topnews'][int.parse(widget.docid)]['coveredBy'] != '' &&
-                        map['Topnews'][int.parse(widget.docid)]['coveredBy'] !=
-                            null
+                    map['Topnews'][int.parse(widget.docid)]['coveredBy'] !=
+                        null
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                                'Covered by : ${map['Topnews'][int.parse(widget.docid)]['coveredBy']}',
-                                style: GoogleFonts.poppins(
-                                    color: Colors.grey,
-                                    fontSize:
-                                        MediaQuery.of(context).size.height *
-                                            0.018))),
-                      )
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                          'Covered by : ${map['Topnews'][int.parse(
+                              widget.docid)]['coveredBy']}',
+                          style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize:
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height *
+                                  0.018))),
+                )
                     : Container()
               ],
             ),
@@ -136,38 +173,50 @@ class _NewsDetailsState extends State<NewsDetails> {
             Center(
               child: Padding(
                 padding:
-                    const EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
+                const EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
                 child: Text(
                     map['Topnews'][int.parse(widget.docid)]['title'].toString(),
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.height * 0.025)),
+                        fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.025)),
               ),
             ),
           );
           allwidgets.add(Center(
             child: Container(
-                width: MediaQuery.of(context).size.width * 0.95,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.95,
                 child: Text(
                     map['Topnews'][int.parse(widget.docid)]['description']
                         .toString(),
                     style: GoogleFonts.poppins(
-                        fontSize: MediaQuery.of(context).size.height * 0.02))),
+                        fontSize: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.02))),
           ));
           allwidgets.add(SizedBox(height: 10));
         });
-        for (int i = 0;
-            i < map['Topnews'][int.parse(widget.docid)]['content'].length;
-            i++) {
-
-          if (event['TopNews'][i]['content'].runtimeType.toString() ==
-              'String') {
+        if (map['Topnews'][int.parse(widget.docid)]['content'].runtimeType
+            .toString() !=
+            'String') {
+          for (int i = 0;
+          i < map['Topnews'][int.parse(widget.docid)]['content'].length;
+          i++) {
             Map map2 = map['Topnews'][int.parse(widget.docid)]['content'][i];
             if (map2.keys.contains('para')) {
               setState(() {
                 allwidgets.add(Center(
                   child: Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.95,
                       child: Text(
                           map2.values
                               .toString()
@@ -176,14 +225,20 @@ class _NewsDetailsState extends State<NewsDetails> {
                               .toString(),
                           style: GoogleFonts.poppins(
                               fontSize:
-                              MediaQuery.of(context).size.height * 0.02))),
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.02))),
                 ));
                 allwidgets.add(SizedBox(height: 10));
               });
             } else if (map2.keys.contains('head')) {
               setState(() {
                 allwidgets.add(Container(
-                    width: MediaQuery.of(context).size.width * 0.95,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.95,
                     child: Text(
                         map2.values
                             .toString()
@@ -191,7 +246,10 @@ class _NewsDetailsState extends State<NewsDetails> {
                             .replaceAll(')', '')
                             .toString(),
                         style: GoogleFonts.poppins(
-                            fontSize: MediaQuery.of(context).size.height * 0.024,
+                            fontSize: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.024,
                             fontWeight: FontWeight.w600))));
                 allwidgets.add(SizedBox(height: 10));
               });
@@ -200,20 +258,33 @@ class _NewsDetailsState extends State<NewsDetails> {
               print('Image:${map2.values.toString()}');
               setState(() {
                 allwidgets.add(Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.4,
                   child: Stack(
                     children: [
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.02,
+                          top: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.4,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: NetworkImage(map2.values
                                         .contains(false)
                                         ? map2.values.toString().substring(8)
-                                        : (map2.values.toString().substring(1))),
+                                        : (map2.values.toString().substring(
+                                        1))),
                                     fit: BoxFit.cover)),
                             child: ClipRRect(
                               child: BackdropFilter(
@@ -221,19 +292,37 @@ class _NewsDetailsState extends State<NewsDetails> {
                                 ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
                                 child: Container(
                                     height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                    width: MediaQuery.of(context).size.width,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height * 0.4,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
                                     decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.0))),
                               ),
                             ),
                           )),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.03,
-                        left: MediaQuery.of(context).size.width * 0.025,
+                        top: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.03,
+                        left: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.025,
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.36,
-                          width: MediaQuery.of(context).size.width * 0.95,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.36,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.95,
                           child: FancyShimmerImage(
                             imageUrl: map2.values.contains(false)
                                 ? map2.values.toString().substring(8)
@@ -253,38 +342,39 @@ class _NewsDetailsState extends State<NewsDetails> {
                 allwidgets.add(SizedBox(height: 10));
               });
             }
-          } else {
-            Map map2 = map['Topnews'][int.parse(widget.docid)]['content'][i];
-            setState(() {
-             allwidgets.add(Container(
-               child: Html(
-                 data:
-                 """${map2.values.toString()}
+          }
+        } else {
+          String a = map['Topnews'][int.parse(widget.docid)]['content'];
+          setState(() {
+            allwidgets.add(Container(
+              child: Html(
+                data:
+                """${map['Topnews'][int.parse(widget.docid)]['content']}
                 """,
-                 padding:
-                 EdgeInsets.all(
-                     8.0),
-                 onLinkTap: (url) {
-                   print(
-                       "Opening $url...");
-                 },
-                 // customRender: (node,
-                 //     children) {
-                 //   if (node is dom
-                 //       .Element) {
-                 //     switch (node
-                 //         .localName) {
-                 //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                 //         return Column(
-                 //             children:
-                 //                 children);
-                 //     }
-                 //   }
-                 // },
-               ),
-             ));
+                padding:
+                EdgeInsets.all(
+                    8.0),
+                onLinkTap: (url) {
+                  print(
+                      "Opening $url...");
+                },
+                // customRender: (node,
+                //     children) {
+                //   if (node is dom
+                //       .Element) {
+                //     switch (node
+                //         .localName) {
+                //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                //         return Column(
+                //             children:
+                //                 children);
+                //     }
+                //   }
+                // },
+              ),
+            ));
           });
-                }
+
 //          Map map2 = map['Topnews'][int.parse(widget.docid)]['content'][i];
 //          if (map2.keys.contains('para')) {
 //            setState(() {
@@ -377,6 +467,7 @@ class _NewsDetailsState extends State<NewsDetails> {
 //            });
 //          }
         }
+
         allwidgets.add(InkWell(
           onTap: () {
             launch(adURL.Link);
@@ -532,11 +623,12 @@ class _NewsDetailsState extends State<NewsDetails> {
           ));
           allwidgets.add(SizedBox(height: 10));
         });
+        if (map['TrendingNews'][int.parse(widget.docid)]['content'].runtimeType.toString() !=
+            'String') {
         for (int i = 0;
             i < map['TrendingNews'][int.parse(widget.docid)]['content'].length;
             i++) {
-          if (event['TrendingNews'][i]['content'].runtimeType.toString() ==
-              'String') {
+
             Map map2 = map['TrendingNews'][int.parse(widget.docid)]['content'][i];
             if (map2.keys.contains('para')) {
               setState(() {
@@ -628,14 +720,14 @@ class _NewsDetailsState extends State<NewsDetails> {
                 allwidgets.add(SizedBox(height: 10));
               });
             }
-          }
+          }}
           else {
-            Map map2 = map['TrendingNews'][int.parse(widget.docid)]['content'][i];
+
             setState(() {
               allwidgets.add(Container(
                 child: Html(
                   data:
-                  """${map2.values.toString()}
+                  """${map['TrendingNews'][int.parse(widget.docid)]['content'].toString()}
                 """,
                   padding:
                   EdgeInsets.all(
@@ -662,7 +754,7 @@ class _NewsDetailsState extends State<NewsDetails> {
             });
           }
 
-        }
+
         allwidgets.add(InkWell(
           onTap: () {
             launch(adURL.Link);
@@ -806,13 +898,43 @@ class _NewsDetailsState extends State<NewsDetails> {
           ));
           allwidgets.add(SizedBox(height: 10));
         });
+        if (map['content'].runtimeType.toString() !=
+            'String') {
         for (int i = 0; i < map['content'].length; i++) {
-          Map map2 = map['content'][i];
-          if (map2.keys.contains('para')) {
-            setState(() {
-              allwidgets.add(Center(
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.95,
+          print(map['content'][i].runtimeType);
+
+            print(event['content'][i].runtimeType.toString());
+            Map map2 = map['content'][i];
+            if (map2.keys.contains('para')) {
+              setState(() {
+                allwidgets.add(Center(
+                  child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.95,
+                      child: Text(
+                          map2.values
+                              .toString()
+                              .replaceAll('(', '')
+                              .replaceAll(')', '')
+                              .toString(),
+                          style: GoogleFonts.poppins(
+                              fontSize:
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 0.02))),
+                ));
+                allwidgets.add(SizedBox(height: 10));
+              });
+            } else if (map2.keys.contains('head')) {
+              setState(() {
+                allwidgets.add(Container(
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.95,
                     child: Text(
                         map2.values
                             .toString()
@@ -820,85 +942,135 @@ class _NewsDetailsState extends State<NewsDetails> {
                             .replaceAll(')', '')
                             .toString(),
                         style: GoogleFonts.poppins(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.02))),
-              ));
-              allwidgets.add(SizedBox(height: 10));
-            });
-          } else if (map2.keys.contains('head')) {
-            setState(() {
-              allwidgets.add(Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: Text(
-                      map2.values
-                          .toString()
-                          .replaceAll('(', '')
-                          .replaceAll(')', '')
-                          .toString(),
-                      style: GoogleFonts.poppins(
-                          fontSize: MediaQuery.of(context).size.height * 0.024,
-                          fontWeight: FontWeight.w600))));
-              allwidgets.add(SizedBox(height: 10));
-            });
-          } else if (map2.keys.contains('image')) {
-            print(map2.values.contains(false));
-            print('Image:${map2.values.toString()}');
-            setState(() {
-              allwidgets.add(Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                child: Stack(
-                  children: [
-                    Positioned(
-                        top: MediaQuery.of(context).size.height * 0.02,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(map2.values
-                                          .contains(false)
-                                      ? map2.values.toString().substring(8)
-                                      : (map2.values.toString().substring(1))),
-                                  fit: BoxFit.cover)),
-                          child: ClipRRect(
-                            child: BackdropFilter(
-                              filter:
-                                  ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-                              child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.0))),
+                            fontSize: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.024,
+                            fontWeight: FontWeight.w600))));
+                allwidgets.add(SizedBox(height: 10));
+              });
+            } else if (map2.keys.contains('image')) {
+              print(map2.values.contains(false));
+              print('Image:${map2.values.toString()}');
+              setState(() {
+                allwidgets.add(Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.4,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                          top: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.02,
+                          child: Container(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.4,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(map2.values
+                                        .contains(false)
+                                        ? map2.values.toString().substring(8)
+                                        : (map2.values.toString().substring(
+                                        1))),
+                                    fit: BoxFit.cover)),
+                            child: ClipRRect(
+                              child: BackdropFilter(
+                                filter:
+                                ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                                child: Container(
+                                    height:
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height * 0.4,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.0))),
+                              ),
                             ),
+                          )),
+                      Positioned(
+                        top: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.03,
+                        left: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.025,
+                        child: Container(
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.36,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.95,
+                          child: FancyShimmerImage(
+                            imageUrl: map2.values.contains(false)
+                                ? map2.values.toString().substring(8)
+                                : (map2.values.toString().substring(1)),
+                            boxFit: BoxFit.fill,
+                            shimmerBaseColor: Colors.grey,
+                            shimmerDuration: Duration(seconds: 1),
                           ),
-                        )),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.03,
-                      left: MediaQuery.of(context).size.width * 0.025,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.36,
-                        width: MediaQuery.of(context).size.width * 0.95,
-                        child: FancyShimmerImage(
-                          imageUrl: map2.values.contains(false)
-                              ? map2.values.toString().substring(8)
-                              : (map2.values.toString().substring(1)),
-                          boxFit: BoxFit.fill,
-                          shimmerBaseColor: Colors.grey,
-                          shimmerDuration: Duration(seconds: 1),
-                        ),
 //                        decoration: BoxDecoration(image: DecorationImage(
 //                            image: NetworkImage(
 //                                map2.values.contains(false)?map2.values.toString().substring(8):(map2.values.toString().substring(1))), fit: BoxFit.cover)
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ));
+                allwidgets.add(SizedBox(height: 10));
+              });
+            }
+          }} else {
+
+            setState(() {
+              allwidgets.add(Container(
+                child: Html(
+                  data:
+                  """${map['content'].toString()}
+                """,
+                  padding:
+                  EdgeInsets.all(
+                      8.0),
+                  onLinkTap: (url) {
+                    print(
+                        "Opening $url...");
+                  },
+                  // customRender: (node,
+                  //     children) {
+                  //   if (node is dom
+                  //       .Element) {
+                  //     switch (node
+                  //         .localName) {
+                  //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                  //         return Column(
+                  //             children:
+                  //                 children);
+                  //     }
+                  //   }
+                  // },
                 ),
               ));
-              allwidgets.add(SizedBox(height: 10));
             });
           }
-        }
+
         allwidgets.add(InkWell(
           onTap: () {
             launch(adURL.Link);
