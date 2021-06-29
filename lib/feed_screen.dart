@@ -5,6 +5,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:insiderLive/Constants/ads.dart';
@@ -32,9 +33,9 @@ class _FeedScreenState extends State<FeedScreen> {
   int check = 0;
   void cats() async {
     allcats.clear();
-    allcats.add(Categories('','Top','',''));
-    allcats.add(Categories('','Trending','',''));
-    allcats.add(Categories('','Breaking-news','',''));
+    allcats.add(Categories('', 'Top', '', ''));
+    allcats.add(Categories('', 'Trending', '', ''));
+    allcats.add(Categories('', 'Breaking-news', '', ''));
     await FirebaseFirestore.instance
         .collection('Category')
         .orderBy('position')
@@ -53,7 +54,6 @@ class _FeedScreenState extends State<FeedScreen> {
           });
         }
       }
-
 
       print(allcats.length);
       pref();
@@ -75,69 +75,108 @@ class _FeedScreenState extends State<FeedScreen> {
 
   final translator = GoogleTranslator();
   void data(String category) async {
-
     allnews.clear();
-    if(category=='Trending'){
+    if (category == 'Trending') {
       FirebaseFirestore.instance
-          .collection('HomePage').doc(category)
-
+          .collection('HomePage')
+          .doc(category)
           .snapshots()
           .listen((event) async {
-
 //       print(i);
 //          print( event.docs[i].id,);
-        for(int i=0;i<event['TrendingNews'].length;i++){
-          setState(() {
-            allnews.add(Data(event['TrendingNews'][i]['imageURL'], event['TrendingNews'][i]['content'],
-                event['TrendingNews'][i]['title'], i.toString()));
-          });
-          for (int j = 0; j < event['TrendingNews'][i]['content'].length; j++) {
-//         print(i);
-            Map<String, dynamic> map = event['TrendingNews'][i]['content'][j];
-            if (map.keys.contains('para')) {
-//                print(map);
-              allparas.add(event['TrendingNews'][i]['content'][j]['para'].toString());
-              break;
-            }
+        for (int i = 0; i < event['TrendingNews'].length; i++) {
+          if (event['TrendingNews'][i]['content'].runtimeType.toString() ==
+              'String') {
+            setState(() {
+              allnews.add(Data(
+                  event['TrendingNews'][i]['imageURL'],
+                  null,
+                  event['TrendingNews'][i]['content'],
+                  event['TrendingNews'][i]['title'],
+                  i.toString()));
+            });
+          } else {
+            setState(() {
+              allnews.add(Data(
+                  event['TrendingNews'][i]['imageURL'],
+                  event['TrendingNews'][i]['content'],
+                  null,
+                  event['TrendingNews'][i]['title'],
+                  i.toString()));
+            });
           }
+          if (!(event['Topnews'][i]['content'].runtimeType.toString() ==
+              'String'))
+            for (int j = 0;
+                j < event['TrendingNews'][i]['content'].length;
+                j++) {
+//         print(i);
+              Map<String, dynamic> map = event['TrendingNews'][i]['content'][j];
+              if (map.keys.contains('para')) {
+//                print(map);
+                allparas.add(
+                    event['TrendingNews'][i]['content'][j]['para'].toString());
+                break;
+              }
+            }
+          else
+            allparas.add(event['TrendingNews'][i]['content'].toString());
         }
-
 
 //print('Allnews:${allnews.length}');
 //     print('Allparas:${allparas.length}');
       });
     }
-     if(category=='Top'||category=='Breaking-news'){
-       FirebaseFirestore.instance
-           .collection('HomePage').doc(category)
-
-           .snapshots()
-           .listen((event) async {
-
+    if (category == 'Top' || category == 'Breaking-news') {
+      FirebaseFirestore.instance
+          .collection('HomePage')
+          .doc(category)
+          .snapshots()
+          .listen((event) async {
 //       print(i);
 //          print( event.docs[i].id,);
-       for(int i=0;i<event['Topnews'].length;i++){
-         setState(() {
-           allnews.add(Data(event['Topnews'][i]['imageURL'], event['Topnews'][i]['content'],
-               event['Topnews'][i]['title'], i.toString()));
-         });
-         for (int j = 0; j < event['Topnews'][i]['content'].length; j++) {
-//         print(i);
-           Map<String, dynamic> map = event['Topnews'][i]['content'][j];
-           if (map.keys.contains('para')) {
-//                print(map);
-             allparas.add(event['Topnews'][i]['content'][j]['para'].toString());
-             break;
-           }
-         }
-       }
 
+        for (int i = 0; i < event['Topnews'].length; i++) {
+          if (event['Topnews'][i]['content'].runtimeType.toString() ==
+              'String') {
+            setState(() {
+              allnews.add(Data(
+                  event['Topnews'][i]['imageURL'],
+                  null,
+                  event['Topnews'][i]['content'],
+                  event['Topnews'][i]['title'],
+                  i.toString()));
+            });
+          } else {
+            setState(() {
+              allnews.add(Data(
+                  event['Topnews'][i]['imageURL'],
+                  event['Topnews'][i]['content'],
+                  null,
+                  event['Topnews'][i]['title'],
+                  i.toString()));
+            });
+          }
+          if (!(event['Topnews'][i]['content'].runtimeType.toString() ==
+              'String'))
+            for (int j = 0; j < event['Topnews'][i]['content'].length; j++) {
+//         print(i);
+              Map<String, dynamic> map = event['Topnews'][i]['content'][j];
+              if (map.keys.contains('para')) {
+//                print(map);
+                allparas
+                    .add(event['Topnews'][i]['content'][j]['para'].toString());
+                break;
+              }
+            }
+          else
+            allparas.add(event['Topnews'][i]['content'].toString());
+        }
 
 //print('Allnews:${allnews.length}');
 //     print('Allparas:${allparas.length}');
-       });
-
-     }
+      });
+    }
     FirebaseFirestore.instance
         .collection('NewsSchem1')
         .where('category', isEqualTo: category)
@@ -147,19 +186,37 @@ class _FeedScreenState extends State<FeedScreen> {
       for (int i = 0; i < event.docs.length; i++) {
 //       print(i);
 //          print( event.docs[i].id,);
-        setState(() {
-          allnews.add(Data(event.docs[i]['imageURL'], event.docs[i]['content'],
-              event.docs[i]['title'], event.docs[i].id));
-        });
-        for (int j = 0; j < event.docs[i]['content'].length; j++) {
-//         print(i);
-          Map<String, dynamic> map = event.docs[i]['content'][j];
-          if (map.keys.contains('para')) {
-//                print(map);
-            allparas.add(event.docs[i]['content'][j]['para'].toString());
-            break;
-          }
+        if (event.docs[i]['content'].runtimeType.toString() == 'String') {
+          setState(() {
+            allnews.add(Data(
+                event.docs[i]['imageURL'],
+                null,
+                event.docs[i]['content'],
+                event.docs[i]['title'],
+                event.docs[i].id));
+          });
+        } else {
+          setState(() {
+            allnews.add(Data(
+                event.docs[i]['imageURL'],
+                event.docs[i]['content'],
+                null,
+                event.docs[i]['title'],
+                event.docs[i].id));
+          });
         }
+        if (!(event.docs[i]['content'].runtimeType.toString() == 'String'))
+          for (int j = 0; j < event.docs[i]['content'].length; j++) {
+//         print(i);
+            Map<String, dynamic> map = event.docs[i]['content'][j];
+            if (map.keys.contains('para')) {
+//                print(map);
+              allparas.add(event.docs[i]['content'][j]['para'].toString());
+              break;
+            }
+          }
+        else
+          allparas.add(event.docs[i]['content'].toString());
       }
 //print('Allnews:${allnews.length}');
 //     print('Allparas:${allparas.length}');
@@ -247,11 +304,14 @@ class _FeedScreenState extends State<FeedScreen> {
                                   setState(() {
                                     category = index;
                                     print(category);
-                                    if(allcats[index].title=='Trending'||allcats[index].title=='Top'||allcats[index].title=='Breaking-news'){
-                                      eng=allcats[index].title;
-                                    }
-                                    else{
-                                      (allcats[index].title != 'Insider Special')
+                                    if (allcats[index].title == 'Trending' ||
+                                        allcats[index].title == 'Top' ||
+                                        allcats[index].title ==
+                                            'Breaking-news') {
+                                      eng = allcats[index].title;
+                                    } else {
+                                      (allcats[index].title !=
+                                              'Insider Special')
                                           ? eng = allcats[index].hindititle
                                           : eng = 'Insider Special';
                                       cat = allcats[index].hindititle;
@@ -361,21 +421,52 @@ class _FeedScreenState extends State<FeedScreen> {
                                               ),
                                               (allparas[index] != null &&
                                                       allparas[index] != '')
-                                                  ? Container(
-                                                      width: width * 0.9,
-                                                      child: Text(
-                                                          allparas[index],
-                                                          maxLines:
-                                                              index % 5 == 0
-                                                                  ? 6
-                                                                  : 7,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                                  fontSize:
-                                                                      height *
-                                                                          0.017)))
+                                                  ? allparas[index]
+                                                          .contains('<p>')
+                                                      ? Container(
+                                                          width: width * 0.9,
+                                                          child: Html(
+                                                            data:
+                                                                """${allparas[index]}
+                """,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            onLinkTap: (url) {
+                                                              print(
+                                                                  "Opening $url...");
+                                                            },
+                                                            // customRender: (node,
+                                                            //     children) {
+                                                            //   if (node is dom
+                                                            //       .Element) {
+                                                            //     switch (node
+                                                            //         .localName) {
+                                                            //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                                                            //         return Column(
+                                                            //             children:
+                                                            //                 children);
+                                                            //     }
+                                                            //   }
+                                                            // },
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          width: width * 0.9,
+                                                          child: Text(
+                                                              allparas[index],
+                                                              maxLines:
+                                                                  index % 5 == 0
+                                                                      ? 6
+                                                                      : 7,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                      fontSize:
+                                                                          height *
+                                                                              0.017)))
                                                   : Container(
                                                       height: 100,
                                                       width: 100,
@@ -386,26 +477,30 @@ class _FeedScreenState extends State<FeedScreen> {
                                             ],
                                           ),
                                         ),
-
-                                             InkWell(
-                                                onTap: () {
-                                                  launch(index % 3 ==0?ads[0].Link:index % 2 ==0?ads[1].Link:ads[2].Link
-                                                          );
-                                                },
-                                                child: Container(
-                                                    height: 100,
-                                                    width: width,
-                                                    child: FancyShimmerImage(
-                                                      imageUrl: index % 3 ==0?ads[0].ImageURL:index % 2 ==0?ads[1].ImageURL:ads[2].ImageURL,
-
-                                                      boxFit: BoxFit.fill,
-                                                      shimmerBaseColor:
-                                                          Colors.grey,
-                                                      shimmerDuration:
-                                                          Duration(seconds: 1),
-                                                    )),
-                                              ),
-
+                                        InkWell(
+                                          onTap: () {
+                                            launch(index % 3 == 0
+                                                ? ads[0].Link
+                                                : index % 2 == 0
+                                                    ? ads[1].Link
+                                                    : ads[2].Link);
+                                          },
+                                          child: Container(
+                                            height: 100,
+                                            width: width,
+                                            child: FancyShimmerImage(
+                                              imageUrl: index % 3 == 0
+                                                  ? ads[0].ImageURL
+                                                  : index % 2 == 0
+                                                      ? ads[1].ImageURL
+                                                      : ads[2].ImageURL,
+                                              boxFit: BoxFit.fill,
+                                              shimmerBaseColor: Colors.grey,
+                                              shimmerDuration:
+                                                  Duration(seconds: 1),
+                                            ),
+                                          ),
+                                        ),
                                         InkWell(
                                           onTap: () {
                                             Navigator.push(
@@ -472,19 +567,20 @@ class _FeedScreenState extends State<FeedScreen> {
                 : Column(children: [
                     Expanded(
                         child: WebView(
-                            key: _key,
-                            javascriptMode: JavascriptMode.unrestricted,
-                            initialUrl: 'https://insiderlive.in',
-                          gestureRecognizers: {
-                            Factory<PlatformViewVerticalGestureRecognizer>(
-                                  () => PlatformViewVerticalGestureRecognizer()
-                                ..onUpdate = (_) {},
-                            ),
-                          },
-                        ))
+                      key: _key,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      initialUrl: 'https://insiderlive.in',
+                      gestureRecognizers: {
+                        Factory<PlatformViewVerticalGestureRecognizer>(
+                          () => PlatformViewVerticalGestureRecognizer()
+                            ..onUpdate = (_) {},
+                        ),
+                      },
+                    ))
                   ])));
   }
 }
+
 class PlatformViewVerticalGestureRecognizer
     extends VerticalDragGestureRecognizer {
   PlatformViewVerticalGestureRecognizer({PointerDeviceKind kind})
