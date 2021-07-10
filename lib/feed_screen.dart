@@ -435,7 +435,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                         width: width * 0.9,
                                                         child: Text(
                                                             allnews[index]
-                                                                .title,
+                                                                .title, //test
                                                             maxLines: 2,
                                                             overflow:
                                                                 TextOverflow
