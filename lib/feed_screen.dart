@@ -268,8 +268,10 @@ class _FeedScreenState extends State<FeedScreen> {
                   child: Icon(Icons.remove_red_eye, color: Colors.white))
               : null,
           title: (cat != null)
-              ? Text(cat,
-                  textAlign: TextAlign.center, style: GoogleFonts.poppins())
+              ? isSwitched == false
+                  ? Text(cat,
+                      textAlign: TextAlign.center, style: GoogleFonts.mukta())
+                  : Container()
               : Container(),
           actions: [
             Switch(
@@ -325,7 +327,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                       allcats[index].title.toUpperCase(),
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.mukta(
                                           color: (index == category)
                                               ? primarycolor
                                               : Colors.grey,
@@ -345,128 +347,184 @@ class _FeedScreenState extends State<FeedScreen> {
                                     width: width,
                                     child: Column(
                                       children: [
-                                        Container(
-                                          height: height * 0.34,
-                                          child: Stack(children: [
-                                            Positioned(
-                                                top: height * 0.02,
-                                                child: Container(
-                                                  height: height * 0.4,
-                                                  width: width,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              allnews[index]
-                                                                  .url),
-                                                          fit: BoxFit.cover)),
-                                                  child: ClipRRect(
-                                                    child: BackdropFilter(
-                                                      filter: ImageFilter.blur(
-                                                          sigmaX: 8.0,
-                                                          sigmaY: 8.0),
-                                                      child: Container(
-                                                          height: height * 0.4,
-                                                          width: width,
-                                                          decoration: BoxDecoration(
-                                                              color: Colors
-                                                                  .white
-                                                                  .withOpacity(
-                                                                      0.0))),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewsDetails(
+                                                            cat,
+                                                            allnews[index]
+                                                                .id)));
+                                          },
+                                          child: Container(
+                                            height: height * 0.34,
+                                            child: Stack(children: [
+                                              Positioned(
+                                                  top: height * 0.02,
+                                                  child: Container(
+                                                    height: height * 0.4,
+                                                    width: width,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                allnews[index]
+                                                                    .url),
+                                                            fit: BoxFit.cover)),
+                                                    child: ClipRRect(
+                                                      child: BackdropFilter(
+                                                        filter:
+                                                            ImageFilter.blur(
+                                                                sigmaX: 8.0,
+                                                                sigmaY: 8.0),
+                                                        child: Container(
+                                                            height:
+                                                                height * 0.4,
+                                                            width: width,
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .white
+                                                                    .withOpacity(
+                                                                        0.0))),
+                                                      ),
                                                     ),
-                                                  ),
-                                                )),
-                                            Positioned(
-                                                top: height * 0.03,
-                                                left: width * 0.025,
-                                                child: Container(
-                                                    height: height * 0.3,
-                                                    width: width * 0.95,
-                                                    child: FancyShimmerImage(
-                                                      imageUrl:
-                                                          allnews[index].url,
-                                                      boxFit: BoxFit.fill,
-                                                      shimmerBaseColor:
-                                                          Colors.grey,
-                                                      shimmerDuration:
-                                                          Duration(seconds: 1),
-                                                    )
+                                                  )),
+                                              Positioned(
+                                                  top: height * 0.03,
+                                                  left: width * 0.025,
+                                                  child: Container(
+                                                      height: height * 0.3,
+                                                      width: width * 0.95,
+                                                      child: FancyShimmerImage(
+                                                        imageUrl:
+                                                            allnews[index].url,
+                                                        boxFit: BoxFit.fill,
+                                                        shimmerBaseColor:
+                                                            Colors.grey,
+                                                        shimmerDuration:
+                                                            Duration(
+                                                                milliseconds:
+                                                                    500),
+                                                      )
 //                                decoration: BoxDecoration(image: DecorationImage(image:NetworkImage(allnews[index].url),fit: BoxFit.cover))),
-                                                    ))
-                                          ]),
+                                                      ))
+                                            ]),
+                                          ),
                                         ),
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              Center(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8.0),
-                                                  child: Container(
-                                                      width: width * 0.9,
-                                                      child: Text(
-                                                          allnews[index].title,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize:
-                                                                      height *
-                                                                          0.02))),
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NewsDetails(
+                                                                  cat,
+                                                                  allnews[index]
+                                                                      .id)));
+                                                },
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Container(
+                                                        width: width * 0.9,
+                                                        child: Text(
+                                                            allnews[index]
+                                                                .title,
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: GoogleFonts.mukta(
+                                                                height: 1.25,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize:
+                                                                    height *
+                                                                        0.02))),
+                                                  ),
                                                 ),
                                               ),
                                               (allparas[index] != null &&
                                                       allparas[index] != '')
                                                   ? allparas[index]
                                                           .contains('<p>')
-                                                      ? Container(
-                                                          width: width * 0.9,
-                                                          child: Html(
-                                                            data:
-                                                                """${allparas[index]}
+                                                      ? InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        NewsDetails(
+                                                                            cat,
+                                                                            allnews[index].id)));
+                                                          },
+                                                          child: Container(
+                                                            width: width * 0.9,
+                                                            height:
+                                                                height * 0.2,
+                                                            child: Html(
+                                                              data:
+                                                                  """${allparas[index]}
                 """,
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8.0),
-                                                            onLinkTap: (url) {
-                                                              print(
-                                                                  "Opening $url...");
-                                                            },
-                                                            // customRender: (node,
-                                                            //     children) {
-                                                            //   if (node is dom
-                                                            //       .Element) {
-                                                            //     switch (node
-                                                            //         .localName) {
-                                                            //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                                                            //         return Column(
-                                                            //             children:
-                                                            //                 children);
-                                                            //     }
-                                                            //   }
-                                                            // },
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
+                                                              onLinkTap: (url) {
+                                                                print(
+                                                                    "Opening $url...");
+                                                              },
+                                                              // customRender: (node,
+                                                              //     children) {
+                                                              //   if (node is dom
+                                                              //       .Element) {
+                                                              //     switch (node
+                                                              //         .localName) {
+                                                              //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                                                              //         return Column(
+                                                              //             children:
+                                                              //                 children);
+                                                              //     }
+                                                              //   }
+                                                              // },
+                                                            ),
                                                           ),
                                                         )
-                                                      : Container(
-                                                          width: width * 0.9,
-                                                          child: Text(
-                                                              allparas[index],
-                                                              maxLines:
-                                                                  index % 5 == 0
-                                                                      ? 6
-                                                                      : 7,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: GoogleFonts
-                                                                  .poppins(
+                                                      : InkWell(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        NewsDetails(
+                                                                            cat,
+                                                                            allnews[index].id)));
+                                                          },
+                                                          child: Container(
+                                                              width:
+                                                                  width * 0.9,
+                                                              child: Text(
+                                                                  allparas[
+                                                                      index],
+                                                                  maxLines:
+                                                                      index % 5 ==
+                                                                              0
+                                                                          ? 6
+                                                                          : 7,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: GoogleFonts.mukta(
                                                                       fontSize:
                                                                           height *
-                                                                              0.017)))
+                                                                              0.017))),
+                                                        )
                                                   : Container(
                                                       height: 100,
                                                       width: 100,
@@ -528,11 +586,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                                       maxLines: 1,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 13)),
+                                                      style: GoogleFonts.mukta(
+                                                          color: Colors.white,
+                                                          fontSize: 13)),
                                                 ),
                                                 Padding(
                                                   padding:
@@ -542,11 +598,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                                       'Tap to read more...',
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 13)),
+                                                      style: GoogleFonts.mukta(
+                                                          color: Colors.white,
+                                                          fontSize: 13)),
                                                 )
                                               ],
                                             ),

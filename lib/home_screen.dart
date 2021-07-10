@@ -111,6 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )),
           ),
+          SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Align(
@@ -142,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          height: 50, child: Image.asset('assets/country2.png')),
+                          height: 50,
+                          child: Image.asset('assets/country2.png')),
                       Text('देश',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -260,7 +264,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                           height: 60,
-                          child: Image.asset('assets/business2.jpeg',)),
+                          child: Image.asset(
+                            'assets/business2.jpeg',
+                          )),
                       Text('कारोबार',
                           style: GoogleFonts.poppins(
                               color: primarycolor,
@@ -292,6 +298,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -330,7 +339,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: MediaQuery.of(context).size.width * 0.95,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    border: Border.all(color: secondarycolor)),
+                    border: Border.all(
+                        color: secondarycolor.withOpacity(0.5), width: 1)),
                 child: Column(
                   children: [
                     Container(
@@ -460,15 +470,18 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Image.asset('assets/insider.png', scale: 1.9),
+          title: Image.asset('assets/insider.png', scale: 2.3),
           centerTitle: true,
           actions: [
             InkWell(
                 onTap: () {
                   Controller.cont.jumpToPage(1);
                 },
-                child: Icon(Icons.arrow_forward_ios,
-                    color: primarycolor, size: 25))
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: Icon(Icons.arrow_forward_ios,
+                      color: Colors.black, size: 25),
+                ))
           ],
         ),
 //      appBar: PreferredSize(child: Appbar(),preferredSize:Size.fromHeight(MediaQuery.of(context).size.height*0.085)),
@@ -566,4 +579,3 @@ class _HomeScreenState extends State<HomeScreen> {
         );
   }
 }
-
