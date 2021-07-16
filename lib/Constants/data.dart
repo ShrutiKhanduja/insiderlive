@@ -4,5 +4,7 @@ class Data {
   String htmlContent;
   String title;
   String id;
-  Data(this.url, this.content, this.htmlContent, this.title, this.id);
+  String description;
+  Data(this.url, this.content, this.htmlContent, this.title, this.id,
+      this.description);
 }

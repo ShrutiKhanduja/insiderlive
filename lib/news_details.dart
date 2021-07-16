@@ -154,7 +154,8 @@ class _NewsDetailsState extends State<NewsDetails> {
                     map['Topnews'][int.parse(widget.docid)]['description']
                         .toString(),
                     style: GoogleFonts.mukta(
-                        fontSize: MediaQuery.of(context).size.height * 0.018))),
+                        fontSize:
+                            MediaQuery.of(context).size.height * 0.0165))),
           ));
           allwidgets.add(SizedBox(height: 10));
         });
@@ -168,7 +169,6 @@ class _NewsDetailsState extends State<NewsDetails> {
               child: Html(
                 data: """${map['Topnews'][int.parse(widget.docid)]['content']}
                 """,
-                padding: EdgeInsets.all(8.0),
               ),
             ),
           );
@@ -300,7 +300,8 @@ class _NewsDetailsState extends State<NewsDetails> {
                 null,
                 map['Topnews'][int.parse(widget.docid)]['content'],
                 map['Topnews'][int.parse(widget.docid)]['title'],
-                event.id));
+                event.id,
+                map['Topnews'][int.parse(widget.docid)]['description']));
           });
         } else {
           setState(() {
@@ -309,7 +310,8 @@ class _NewsDetailsState extends State<NewsDetails> {
                 map['Topnews'][int.parse(widget.docid)]['content'],
                 null,
                 map['Topnews'][int.parse(widget.docid)]['title'],
-                event.id));
+                event.id,
+                map['Topnews'][int.parse(widget.docid)]['description']));
           });
         }
       });
@@ -574,7 +576,8 @@ class _NewsDetailsState extends State<NewsDetails> {
                 null,
                 map['TrendingNews'][int.parse(widget.docid)]['content'],
                 map['TrendingNews'][int.parse(widget.docid)]['title'],
-                event.id));
+                event.id,
+                map['Topnews'][int.parse(widget.docid)]['description']));
           });
         } else {
           setState(() {
@@ -583,7 +586,8 @@ class _NewsDetailsState extends State<NewsDetails> {
                 map['TrendingNews'][int.parse(widget.docid)]['content'],
                 null,
                 map['TrendingNews'][int.parse(widget.docid)]['title'],
-                event.id));
+                event.id,
+                map['Topnews'][int.parse(widget.docid)]['description']));
           });
         }
       });
@@ -819,13 +823,13 @@ class _NewsDetailsState extends State<NewsDetails> {
         ));
         if (map['content'].runtimeType.toString() == 'String') {
           setState(() {
-            allnews.add(Data(
-                map['imageURL'], null, map['content'], map['title'], event.id));
+            allnews.add(Data(map['imageURL'], null, map['content'],
+                map['title'], event.id, map['description']));
           });
         } else {
           setState(() {
-            allnews.add(Data(
-                map['imageURL'], map['content'], null, map['title'], event.id));
+            allnews.add(Data(map['imageURL'], map['content'], null,
+                map['title'], event.id, map['description']));
           });
         }
       });

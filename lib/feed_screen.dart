@@ -89,11 +89,13 @@ class _FeedScreenState extends State<FeedScreen> {
               'String') {
             setState(() {
               allnews.add(Data(
-                  event['TrendingNews'][i]['imageURL'],
-                  null,
-                  event['TrendingNews'][i]['content'],
-                  event['TrendingNews'][i]['title'],
-                  i.toString()));
+                event['TrendingNews'][i]['imageURL'],
+                null,
+                event['TrendingNews'][i]['content'],
+                event['TrendingNews'][i]['title'],
+                i.toString(),
+                event['TrendingNews'][i]['description'],
+              ));
             });
           } else {
             setState(() {
@@ -102,7 +104,8 @@ class _FeedScreenState extends State<FeedScreen> {
                   event['TrendingNews'][i]['content'],
                   null,
                   event['TrendingNews'][i]['title'],
-                  i.toString()));
+                  i.toString(),
+                  event['TrendingNews'][i]['description']));
             });
           }
           if (!(event['Topnews'][i]['content'].runtimeType.toString() ==
@@ -145,7 +148,8 @@ class _FeedScreenState extends State<FeedScreen> {
                   null,
                   event['Topnews'][i]['content'],
                   event['Topnews'][i]['title'],
-                  i.toString()));
+                  i.toString(),
+                  event['Topnews'][i]['description']));
             });
           } else {
             setState(() {
@@ -154,7 +158,8 @@ class _FeedScreenState extends State<FeedScreen> {
                   event['Topnews'][i]['content'],
                   null,
                   event['Topnews'][i]['title'],
-                  i.toString()));
+                  i.toString(),
+                  event['Topnews'][i]['description']));
             });
           }
           if (!(event['Topnews'][i]['content'].runtimeType.toString() ==
@@ -193,7 +198,8 @@ class _FeedScreenState extends State<FeedScreen> {
                 null,
                 event.docs[i]['content'],
                 event.docs[i]['title'],
-                event.docs[i].id));
+                event.docs[i].id,
+                event.docs[i]['description']));
           });
         } else {
           setState(() {
@@ -202,7 +208,8 @@ class _FeedScreenState extends State<FeedScreen> {
                 event.docs[i]['content'],
                 null,
                 event.docs[i]['title'],
-                event.docs[i].id));
+                event.docs[i].id,
+                event.docs[i]['description']));
           });
         }
         if (!(event.docs[i]['content'].runtimeType.toString() == 'String'))
@@ -451,6 +458,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   ),
                                                 ),
                                               ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
                                               (allparas[index] != null &&
                                                       allparas[index] != '')
                                                   ? allparas[index]
@@ -466,35 +476,55 @@ class _FeedScreenState extends State<FeedScreen> {
                                                                             allnews[index].id)));
                                                           },
                                                           child: Container(
-                                                            width: width * 0.9,
-                                                            height:
-                                                                height * 0.2,
-                                                            child: Html(
-                                                              data:
-                                                                  """${allparas[index]}
-                """,
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(8.0),
-                                                              onLinkTap: (url) {
-                                                                print(
-                                                                    "Opening $url...");
-                                                              },
-                                                              // customRender: (node,
-                                                              //     children) {
-                                                              //   if (node is dom
-                                                              //       .Element) {
-                                                              //     switch (node
-                                                              //         .localName) {
-                                                              //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                                                              //         return Column(
-                                                              //             children:
-                                                              //                 children);
-                                                              //     }
-                                                              //   }
-                                                              // },
-                                                            ),
-                                                          ),
+                                                              width:
+                                                                  width * 0.9,
+                                                              child: allnews[index]
+                                                                          .description !=
+                                                                      null
+                                                                  ? Text(
+                                                                      allnews[index]
+                                                                          .description, //test
+                                                                      maxLines:
+                                                                          5,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: GoogleFonts.mukta(
+                                                                          height:
+                                                                              1.25,
+                                                                          fontSize:
+                                                                              height * 0.02))
+                                                                  : Container()),
+                                                          //                                           Container(
+                                                          //                                             width: width * 0.9,
+                                                          //                                             height:
+                                                          //                                                 height * 0.2,
+                                                          //                                             child: Html(
+                                                          //                                               data:
+                                                          //                                                   """${allparas[index]}
+                                                          // """,
+                                                          //                                               padding:
+                                                          //                                                   EdgeInsets
+                                                          //                                                       .all(8.0),
+                                                          //                                               onLinkTap: (url) {
+                                                          //                                                 print(
+                                                          //                                                     "Opening $url...");
+                                                          //                                               },
+                                                          //                                               // customRender: (node,
+                                                          //                                               //     children) {
+                                                          //                                               //   if (node is dom
+                                                          //                                               //       .Element) {
+                                                          //                                               //     switch (node
+                                                          //                                               //         .localName) {
+                                                          //                                               //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                                                          //                                               //         return Column(
+                                                          //                                               //             children:
+                                                          //                                               //                 children);
+                                                          //                                               //     }
+                                                          //                                               //   }
+                                                          //                                               // },
+                                                          //                                             ),
+                                                          //                                           ),
                                                         )
                                                       : InkWell(
                                                           onTap: () {
