@@ -108,7 +108,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   event['TrendingNews'][i]['description']));
             });
           }
-          if (!(event['Topnews'][i]['content'].runtimeType.toString() ==
+          if (!(event['TrendingNews'][i]['content'].runtimeType.toString() ==
               'String'))
             for (int j = 0;
                 j < event['TrendingNews'][i]['content'].length;

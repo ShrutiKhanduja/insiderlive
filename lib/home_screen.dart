@@ -317,6 +317,312 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     check = 0;
     List<Data> allnews = [];
+    List<String>extracats=[];
+    extracats.add('Top');
+    extracats.add('Trending');
+    extracats.add('Breaking-news');
+    for(int i=0;i<extracats.length;i++){
+      FirebaseFirestore.instance.collection('HomePage').doc(extracats[i]).snapshots().listen((event) {
+        if (extracats[i] == 'Top' || extracats[i] == 'Breaking-news') {
+          setState(() {
+            alltopics.add(Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  height: 386,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.95,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      border: Border.all(
+                          color: secondarycolor.withOpacity(0.5), width: 1)),
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 50,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.95,
+                          decoration: BoxDecoration(
+                              color: primarycolor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12.0),
+                                  topRight: Radius.circular(12.0))),
+                          child: Center(
+                              child: Text(extracats[i],
+                                  style: GoogleFonts.poppins(
+                                      color: secondarycolor,
+                                      fontSize:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height *
+                                          0.025,
+                                      fontWeight: FontWeight.bold)))),
+                      Container(
+                        height: 294,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                            itemCount: 3,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var item = index;
+//                                 print(event.docs[index]['title']);
+
+
+//                                print('Image:${event.docs[index]['imageURL']}');
+                              return Column(children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewsDetails(
+                                                   extracats[i],
+                                                    index.toString())));
+//                                          _launchURL('https://insiderlive.in/news/${event.docs[index].id}/${event.docs[index]['category']}');
+                                  },
+                                  child: Row(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              0.08,
+                                          width:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.2,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(4),
+                                              child: FancyShimmerImage(
+                                                imageUrl: event['Topnews'][index]
+                                                ['imageURL'],
+                                                boxFit: BoxFit.fill,
+                                                shimmerDuration:
+                                                Duration(seconds: 1),
+                                                shimmerBaseColor: Colors.grey,
+                                              ))
+//                                              decoration:BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0),),image: DecorationImage(image: FancyShimmerImage(url:event.docs[index]['imageURL']),fit: BoxFit.fill)),
+                                      ),
+                                    ),
+                                    Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.6,
+                                        child: Center(
+                                            child: Text(
+                                                event['Topnews'][index]['title'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.poppins(
+                                                  color: secondarycolor,
+                                                ))))
+                                  ]),
+                                ),
+                                Divider(color: secondarycolor)
+                              ]);
+                            }),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            pref(extracats[i], extracats[i]);
+                            Controller.cont.jumpToPage(1);
+                          },
+                          child: Container(
+                              height: 40,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.85,
+                              child: Center(
+                                  child: Text('Read more',
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              0.015,
+                                          decoration:
+                                          TextDecoration.underline)))))
+                    ],
+                  )),
+            ));
+          });
+        }
+        if (extracats[i] == 'Trending') {
+          setState(() {
+            alltopics.add(Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  height: 386,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.95,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      border: Border.all(
+                          color: secondarycolor.withOpacity(0.5), width: 1)),
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 50,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.95,
+                          decoration: BoxDecoration(
+                              color: primarycolor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12.0),
+                                  topRight: Radius.circular(12.0))),
+                          child: Center(
+                              child: Text(extracats[i],
+                                  style: GoogleFonts.poppins(
+                                      color: secondarycolor,
+                                      fontSize:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height *
+                                          0.025,
+                                      fontWeight: FontWeight.bold)))),
+                      Container(
+                        height: 294,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        child: ListView.builder(
+                            itemCount: 3,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var item = index;
+//                                 print(event.docs[index]['title']);
+                              if (check < 4) {
+                                check++;
+                              }
+
+//                                print('Image:${event.docs[index]['imageURL']}');
+                              return Column(children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewsDetails(
+                                                    extracats[i],
+                                                    index.toString())));
+//                                          _launchURL('https://insiderlive.in/news/${event.docs[index].id}/${event.docs[index]['category']}');
+                                  },
+                                  child: Row(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              0.08,
+                                          width:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width *
+                                              0.2,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(4),
+                                              child: FancyShimmerImage(
+                                                imageUrl: event['TrendingNews'][index]
+                                                ['imageURL'],
+                                                boxFit: BoxFit.fill,
+                                                shimmerDuration:
+                                                Duration(seconds: 1),
+                                                shimmerBaseColor: Colors.grey,
+                                              ))
+//                                              decoration:BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.0),),image: DecorationImage(image: FancyShimmerImage(url:event.docs[index]['imageURL']),fit: BoxFit.fill)),
+                                      ),
+                                    ),
+                                    Container(
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width *
+                                            0.6,
+                                        child: Center(
+                                            child: Text(
+                                                event['TrendingNews'][index]['title'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.poppins(
+                                                  color: secondarycolor,
+                                                ))))
+                                  ]),
+                                ),
+                                Divider(color: secondarycolor)
+                              ]);
+                            }),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            pref(extracats[i], extracats[i]);
+                            Controller.cont.jumpToPage(1);
+                          },
+                          child: Container(
+                              height: 40,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.85,
+                              child: Center(
+                                  child: Text('Read more',
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              0.015,
+                                          decoration:
+                                          TextDecoration.underline)))))
+                    ],
+                  )),
+            ));
+          });
+        }
+      });
+
+        }
+
+
+
+
+
     for (int i = 0; i < allcats.length; i++) {
       FirebaseFirestore.instance
           .collection('NewsSchem1')
