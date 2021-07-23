@@ -299,59 +299,111 @@ class _FeedScreenState extends State<FeedScreen> {
         body: Container(
             height: height,
             width: width,
-            child: isSwitched == false
-                ? Column(
-                    children: [
-                      Container(
-                        height: 40,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: allcats.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    category = index;
-                                    print(category);
-                                    if (allcats[index].title == 'Trending' ||
-                                        allcats[index].title == 'Top' ||
-                                        allcats[index].title ==
-                                            'Breaking-news') {
-                                      eng = allcats[index].title;
-                                    } else {
-                                      (allcats[index].title !=
-                                              'Insider Special')
-                                          ? eng = allcats[index].hindititle
-                                          : eng = 'Insider Special';
-                                      cat = allcats[index].hindititle;
-                                      eng = allcats[index].title;
-                                    }
+            child: Column(
+              children: [
+                Container(
+                  height: 40,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: allcats.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              category = index;
+                              print(category);
+                              if (allcats[index].title == 'Trending' ||
+                                  allcats[index].title == 'Top' ||
+                                  allcats[index].title == 'Breaking-news') {
+                                eng = allcats[index].title;
+                              } else {
+                                (allcats[index].title != 'Insider Special')
+                                    ? eng = allcats[index].hindititle
+                                    : eng = 'Insider Special';
+                                cat = allcats[index].hindititle;
+                                eng = allcats[index].title;
+                              }
 
-                                    data(allcats[index].title);
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                      allcats[index].title.toUpperCase(),
-                                      style: GoogleFonts.mukta(
-                                          color: (index == category)
-                                              ? primarycolor
-                                              : Colors.grey,
-                                          fontSize: height * 0.02)),
-                                ),
-                              );
-                            }),
-                      ),
-                      Expanded(
-                        child: (allnews.length != 0 && allparas.length != 0)
-                            ? PageView.builder(
-                                itemCount: allnews.length,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    height: height * 0.9,
-                                    width: width,
+                              data(allcats[index].title);
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(allcats[index].title.toUpperCase(),
+                                style: GoogleFonts.mukta(
+                                    color: (index == category)
+                                        ? primarycolor
+                                        : Colors.grey,
+                                    fontSize: height * 0.02)),
+                          ),
+                        );
+                      }),
+                ),
+                Expanded(
+                  child: (allnews.length != 0 && allparas.length != 0)
+                      ? PageView.builder(
+                          itemCount: allnews.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: height * 0.9,
+                              width: width,
+                              child: Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => NewsDetails(
+                                                  cat, allnews[index].id)));
+                                    },
+                                    child: Container(
+                                      height: height * 0.34,
+                                      child: Stack(children: [
+                                        Positioned(
+                                            top: height * 0.02,
+                                            child: Container(
+                                              height: height * 0.4,
+                                              width: width,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          allnews[index].url),
+                                                      fit: BoxFit.cover)),
+                                              child: ClipRRect(
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                      sigmaX: 8.0, sigmaY: 8.0),
+                                                  child: Container(
+                                                      height: height * 0.4,
+                                                      width: width,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white
+                                                              .withOpacity(
+                                                                  0.0))),
+                                                ),
+                                              ),
+                                            )),
+                                        Positioned(
+                                            top: height * 0.03,
+                                            left: width * 0.025,
+                                            child: Container(
+                                                height: height * 0.3,
+                                                width: width * 0.95,
+                                                child: FancyShimmerImage(
+                                                  imageUrl: allnews[index].url,
+                                                  boxFit: BoxFit.fill,
+                                                  shimmerBaseColor: Colors.grey,
+                                                  shimmerDuration: Duration(
+                                                      milliseconds: 500),
+                                                )
+//                                decoration: BoxDecoration(image: DecorationImage(image:NetworkImage(allnews[index].url),fit: BoxFit.cover))),
+                                                ))
+                                      ]),
+                                    ),
+                                  ),
+                                  Expanded(
                                     child: Column(
                                       children: [
                                         InkWell(
@@ -365,207 +417,134 @@ class _FeedScreenState extends State<FeedScreen> {
                                                             allnews[index]
                                                                 .id)));
                                           },
-                                          child: Container(
-                                            height: height * 0.34,
-                                            child: Stack(children: [
-                                              Positioned(
-                                                  top: height * 0.02,
-                                                  child: Container(
-                                                    height: height * 0.4,
-                                                    width: width,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                allnews[index]
-                                                                    .url),
-                                                            fit: BoxFit.cover)),
-                                                    child: ClipRRect(
-                                                      child: BackdropFilter(
-                                                        filter:
-                                                            ImageFilter.blur(
-                                                                sigmaX: 8.0,
-                                                                sigmaY: 8.0),
-                                                        child: Container(
-                                                            height:
-                                                                height * 0.4,
-                                                            width: width,
-                                                            decoration: BoxDecoration(
-                                                                color: Colors
-                                                                    .white
-                                                                    .withOpacity(
-                                                                        0.0))),
-                                                      ),
-                                                    ),
-                                                  )),
-                                              Positioned(
-                                                  top: height * 0.03,
-                                                  left: width * 0.025,
-                                                  child: Container(
-                                                      height: height * 0.3,
-                                                      width: width * 0.95,
-                                                      child: FancyShimmerImage(
-                                                        imageUrl:
-                                                            allnews[index].url,
-                                                        boxFit: BoxFit.fill,
-                                                        shimmerBaseColor:
-                                                            Colors.grey,
-                                                        shimmerDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    500),
-                                                      )
-//                                decoration: BoxDecoration(image: DecorationImage(image:NetworkImage(allnews[index].url),fit: BoxFit.cover))),
-                                                      ))
-                                            ]),
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: Container(
+                                                  width: width * 0.9,
+                                                  child: Text(
+                                                      allnews[index]
+                                                          .title, //test
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: GoogleFonts.mukta(
+                                                          height: 1.25,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              height * 0.02))),
+                                            ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              NewsDetails(
-                                                                  cat,
-                                                                  allnews[index]
-                                                                      .id)));
-                                                },
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        (allparas[index] != null &&
+                                                allparas[index] != '')
+                                            ? allparas[index].contains('<p>')
+                                                ? InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  NewsDetails(
+                                                                      cat,
+                                                                      allnews[index]
+                                                                          .id)));
+                                                    },
+                                                    child: Container(
+                                                        width: width * 0.9,
+                                                        child: allnews[index]
+                                                                    .description !=
+                                                                null
+                                                            ? Text(
+                                                                allnews[index]
+                                                                    .description, //test
+                                                                maxLines: 5,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: GoogleFonts.mukta(
+                                                                    height:
+                                                                        1.25,
+                                                                    fontSize:
+                                                                        height *
+                                                                            0.02))
+                                                            : Container()),
+                                                    //                                           Container(
+                                                    //                                             width: width * 0.9,
+                                                    //                                             height:
+                                                    //                                                 height * 0.2,
+                                                    //                                             child: Html(
+                                                    //                                               data:
+                                                    //                                                   """${allparas[index]}
+                                                    // """,
+                                                    //                                               padding:
+                                                    //                                                   EdgeInsets
+                                                    //                                                       .all(8.0),
+                                                    //                                               onLinkTap: (url) {
+                                                    //                                                 print(
+                                                    //                                                     "Opening $url...");
+                                                    //                                               },
+                                                    //                                               // customRender: (node,
+                                                    //                                               //     children) {
+                                                    //                                               //   if (node is dom
+                                                    //                                               //       .Element) {
+                                                    //                                               //     switch (node
+                                                    //                                               //         .localName) {
+                                                    //                                               //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                                                    //                                               //         return Column(
+                                                    //                                               //             children:
+                                                    //                                               //                 children);
+                                                    //                                               //     }
+                                                    //                                               //   }
+                                                    //                                               // },
+                                                    //                                             ),
+                                                    //                                           ),
+                                                  )
+                                                : InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  NewsDetails(
+                                                                      cat,
+                                                                      allnews[index]
+                                                                          .id)));
+                                                    },
                                                     child: Container(
                                                         width: width * 0.9,
                                                         child: Text(
-                                                            allnews[index]
-                                                                .title, //test
-                                                            maxLines: 2,
+                                                            allparas[index],
+                                                            maxLines:
+                                                                index % 5 == 0
+                                                                    ? 6
+                                                                    : 7,
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
-                                                            style: GoogleFonts.mukta(
-                                                                height: 1.25,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize:
-                                                                    height *
-                                                                        0.02))),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              (allparas[index] != null &&
-                                                      allparas[index] != '')
-                                                  ? allparas[index]
-                                                          .contains('<p>')
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) =>
-                                                                        NewsDetails(
-                                                                            cat,
-                                                                            allnews[index].id)));
-                                                          },
-                                                          child: Container(
-                                                              width:
-                                                                  width * 0.9,
-                                                              child: allnews[index]
-                                                                          .description !=
-                                                                      null
-                                                                  ? Text(
-                                                                      allnews[index]
-                                                                          .description, //test
-                                                                      maxLines:
-                                                                          5,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: GoogleFonts.mukta(
-                                                                          height:
-                                                                              1.25,
-                                                                          fontSize:
-                                                                              height * 0.02))
-                                                                  : Container()),
-                                                          //                                           Container(
-                                                          //                                             width: width * 0.9,
-                                                          //                                             height:
-                                                          //                                                 height * 0.2,
-                                                          //                                             child: Html(
-                                                          //                                               data:
-                                                          //                                                   """${allparas[index]}
-                                                          // """,
-                                                          //                                               padding:
-                                                          //                                                   EdgeInsets
-                                                          //                                                       .all(8.0),
-                                                          //                                               onLinkTap: (url) {
-                                                          //                                                 print(
-                                                          //                                                     "Opening $url...");
-                                                          //                                               },
-                                                          //                                               // customRender: (node,
-                                                          //                                               //     children) {
-                                                          //                                               //   if (node is dom
-                                                          //                                               //       .Element) {
-                                                          //                                               //     switch (node
-                                                          //                                               //         .localName) {
-                                                          //                                               //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                                                          //                                               //         return Column(
-                                                          //                                               //             children:
-                                                          //                                               //                 children);
-                                                          //                                               //     }
-                                                          //                                               //   }
-                                                          //                                               // },
-                                                          //                                             ),
-                                                          //                                           ),
-                                                        )
-                                                      : InkWell(
-                                                          onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) =>
-                                                                        NewsDetails(
-                                                                            cat,
-                                                                            allnews[index].id)));
-                                                          },
-                                                          child: Container(
-                                                              width:
-                                                                  width * 0.9,
-                                                              child: Text(
-                                                                  allparas[
-                                                                      index],
-                                                                  maxLines:
-                                                                      index % 5 ==
-                                                                              0
-                                                                          ? 6
-                                                                          : 7,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: GoogleFonts.mukta(
-                                                                      fontSize:
-                                                                          height *
-                                                                              0.017))),
-                                                        )
-                                                  : Container(
-                                                      height: 100,
-                                                      width: 100,
-                                                      child: SpinKitWave(
-                                                          color: primarycolor,
-                                                          size: height * 0.023),
-                                                    )
-                                            ],
-                                          ),
-                                        ),
-                                        InkWell(
+                                                            style: GoogleFonts
+                                                                .mukta(
+                                                                    fontSize:
+                                                                        height *
+                                                                            0.017))),
+                                                  )
+                                            : Container(
+                                                height: 100,
+                                                width: 100,
+                                                child: SpinKitWave(
+                                                    color: primarycolor,
+                                                    size: height * 0.023),
+                                              )
+                                      ],
+                                    ),
+                                  ),
+                                  isSwitched == false
+                                      ? InkWell(
                                           onTap: () {
                                             launch(index % 3 == 0
                                                 ? ads[0].Link
@@ -588,80 +567,74 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   Duration(seconds: 1),
                                             ),
                                           ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        NewsDetails(
-                                                            cat,
-                                                            allnews[index]
-                                                                .id)));
-                                          },
-                                          child: Container(
-                                            height: 70,
-                                            width: width,
-                                            decoration: BoxDecoration(
-                                                color: Colors.black),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      allnews[index].title,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: GoogleFonts.mukta(
-                                                          color: Colors.white,
-                                                          fontSize: 13)),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0, bottom: 5),
-                                                  child: Text(
-                                                      'Tap to read more...',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: GoogleFonts.mukta(
-                                                          color: Colors.white,
-                                                          fontSize: 13)),
-                                                )
-                                              ],
-                                            ),
-                                          ),
                                         )
-                                      ],
+                                      : Container(),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => NewsDetails(
+                                                  cat, allnews[index].id)));
+                                    },
+                                    child: Container(
+                                      height: 70,
+                                      width: width,
+                                      decoration:
+                                          BoxDecoration(color: Colors.black),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(allnews[index].title,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.mukta(
+                                                    color: Colors.white,
+                                                    fontSize: 13)),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, bottom: 5),
+                                            child: Text('Tap to read more...',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.mukta(
+                                                    color: Colors.white,
+                                                    fontSize: 13)),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  );
-                                })
-                            : Container(
-                                height: 100,
-                                width: 100,
-                                child: SpinKitWave(
-                                    color: primarycolor, size: height * 0.023)),
-                      )
-                    ],
-                  )
-                : Column(children: [
-                    Expanded(
-                        child: WebView(
-                      key: _key,
-                      javascriptMode: JavascriptMode.unrestricted,
-                      initialUrl: 'https://insiderlive.in',
-                      gestureRecognizers: {
-                        Factory<PlatformViewVerticalGestureRecognizer>(
-                          () => PlatformViewVerticalGestureRecognizer()
-                            ..onUpdate = (_) {},
-                        ),
-                      },
-                    ))
-                  ])));
+                                  )
+                                ],
+                              ),
+                            );
+                          })
+                      : Container(
+                          height: 100,
+                          width: 100,
+                          child: SpinKitWave(
+                              color: primarycolor, size: height * 0.023)),
+                )
+              ],
+            )
+            // : Column(children: [
+            //     Expanded(
+            //         child: WebView(
+            //       key: _key,
+            //       javascriptMode: JavascriptMode.unrestricted,
+            //       initialUrl: 'https://insiderlive.in',
+            //       gestureRecognizers: {
+            //         Factory<PlatformViewVerticalGestureRecognizer>(
+            //           () => PlatformViewVerticalGestureRecognizer()
+            //             ..onUpdate = (_) {},
+            //         ),
+            //       },
+            //     ))
+            //   ])
+            ));
   }
 }
 
