@@ -12,7 +12,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-
   TextEditingController _cont = TextEditingController();
   List<DataModel> dogList1 = [];
   List<Widget> dogCardsList1 = [];
@@ -63,7 +62,6 @@ class _SearchState extends State<Search> {
 //    });
 //  }
 
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -72,7 +70,7 @@ class _SearchState extends State<Search> {
       backgroundColor: Colors.white,
       body: Padding(
         padding:
-        EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
         child: SingleChildScrollView(
           child: Column(children: [
             TextFormField(
@@ -97,7 +95,12 @@ class _SearchState extends State<Search> {
                     var item = dogList[index];
                     return InkWell(
                       onTap: () async {
-                        Navigator.push(context,MaterialPageRoute(builder:(context)=>NewsDetails(dogList[index].category, dogList[index].id)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewsDetails(
+                                    dogList[index].category,
+                                    dogList[index].id)));
 //                        Navigator.push(
 //                            context,
 //                            MaterialPageRoute(
@@ -205,14 +208,16 @@ class _SearchState extends State<Search> {
     }
 
     await FirebaseFirestore.instance
-        .collection('NewsSchem1').orderBy('TimeStamp',descending: true)
+        .collection('NewsSchem1')
+        .orderBy('TimeStamp', descending: true)
+        .limit(50)
         .get()
         .then((QuerySnapshot snapshot) {
       docList.clear();
       dogList.clear();
       snapshot.docs.forEach((f) {
         var name = f['title'].toString().toLowerCase();
-        var category=f['category'].toString().toLowerCase();
+        var category = f['category'].toString().toLowerCase();
 //        List<dynamic> dogsub = List<String>.from(f['subcategorysearch']);
 //        List<dynamic> dogName = List<String>.from(f['nameSearch']);
 //        List<dynamic> dogBreed = List<String>.from(f['categorySearch']);
@@ -230,15 +235,14 @@ class _SearchState extends State<Search> {
 //        for (var sub in dogsub) {
 //          dogsubLowerCase.add(sub.toLowerCase());
 //        }
-        if (name.toString().toLowerCase().contains(query.toLowerCase())||category==query.toLowerCase() ) {
-
-
+        if (name.toString().toLowerCase().contains(query.toLowerCase()) ||
+            category == query.toLowerCase()) {
           docList.add(f);
           DataModel dp = DataModel(
               timestamp: f['TimeStamp'],
 //              author: f['author'],
               category: f['category'],
-              content: List.from(f['content']),
+              // content: List.from(f['content']),
 //              coveredBy: f['coveredBy'],
               description: f['description'],
 //              imageCaption: f['imageCaption'],
@@ -247,32 +251,30 @@ class _SearchState extends State<Search> {
 //              route: f['route'],
 //              seotag: List.from(f['seotag']),
 //              tags: List.from(f['tags']),
-              title:f['title'],
-          id:f.id);
+              title: f['title'],
+              id: f.id);
 
           dogList.add(dp);
           setState(() {
             print('Updated');
           });
         }
-
-
-
       });
     });
   }
 
   void getData() async {
     await FirebaseFirestore.instance
-        .collection("NewsSchem1").orderBy('TimeStamp',descending: true)
+        .collection("NewsSchem1")
+        .orderBy('TimeStamp', descending: true)
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((f) {
-        dogList.add(  DataModel(
-        timestamp: f['TimeStamp'],
+        dogList.add(DataModel(
+            timestamp: f['TimeStamp'],
             author: f['author'],
             category: f['category'],
-            content: List.from(f['content']),
+            // content: List.from(f['content']),
             coveredBy: f['coveredBy'],
             description: f['description'],
             imageCaption: f['imageCaption'],
@@ -281,8 +283,8 @@ class _SearchState extends State<Search> {
             route: f['route'],
             seotag: List.from(f['seotag']),
             tags: List.from(f['tags']),
-            title:f['title'],
-        id: f.id));
+            title: f['title'],
+            id: f.id));
 
         print('Dog added');
 //        print(f['profileImage'].toString());

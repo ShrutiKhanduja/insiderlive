@@ -37,6 +37,7 @@ dependencies:
   translator: ^0.1.5
   flutter_svg: ^0.18.0
   flutter_social_content_share: ^0.0.4
+  flutter_automation: ^1.1.4
 
 
 dev_dependencies:
